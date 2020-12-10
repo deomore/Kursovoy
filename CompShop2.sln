@@ -1,0 +1,31 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.30717.126
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompShop2", "CompShop2.csproj", "{B70D39D1-7B97-4C7A-B8FB-0C4D9DE71477}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompShop2.Tests", "..\CompShop2.Tests\CompShop2.Tests.csproj", "{C470628E-DCEE-4CA9-B4A5-EE2DF9C6E733}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B70D39D1-7B97-4C7A-B8FB-0C4D9DE71477}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B70D39D1-7B97-4C7A-B8FB-0C4D9DE71477}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B70D39D1-7B97-4C7A-B8FB-0C4D9DE71477}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B70D39D1-7B97-4C7A-B8FB-0C4D9DE71477}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C470628E-DCEE-4CA9-B4A5-EE2DF9C6E733}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C470628E-DCEE-4CA9-B4A5-EE2DF9C6E733}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C470628E-DCEE-4CA9-B4A5-EE2DF9C6E733}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C470628E-DCEE-4CA9-B4A5-EE2DF9C6E733}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {68E07AA2-FB42-46B5-BFB2-B50BD76EF5CB}
+	EndGlobalSection
+EndGlobal

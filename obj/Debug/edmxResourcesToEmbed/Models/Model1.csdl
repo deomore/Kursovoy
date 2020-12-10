@@ -1,0 +1,168 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="CSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Categorys">
+    <Key>
+      <PropertyRef Name="CategotyID" />
+    </Key>
+    <Property Name="CategotyID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="CatName" Type="String" MaxLength="16" FixedLength="true" Unicode="true" Nullable="false" />
+    <NavigationProperty Name="Goods" Relationship="Self.FK_Goods_Categorys" FromRole="Categorys" ToRole="Goods" />
+  </EntityType>
+  <EntityType Name="Goods">
+    <Key>
+      <PropertyRef Name="GoodsID" />
+    </Key>
+    <Property Name="GoodsID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Category" Type="Int32" Nullable="false" />
+    <Property Name="Price" Type="Double" Nullable="false" />
+    <Property Name="Name" Type="String" MaxLength="20" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Quantity" Type="Int32" Nullable="false" />
+    <Property Name="ProvidedBy" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Categorys" Relationship="Self.FK_Goods_Categorys" FromRole="Goods" ToRole="Categorys" />
+    <NavigationProperty Name="Providers" Relationship="Self.FK_Goods_Providers" FromRole="Goods" ToRole="Providers" />
+    <NavigationProperty Name="Transaction" Relationship="Self.FK_Transaction_Goods" FromRole="Goods" ToRole="Transaction" />
+  </EntityType>
+  <EntityType Name="Providers">
+    <Key>
+      <PropertyRef Name="ProviderID" />
+    </Key>
+    <Property Name="ProviderID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="16" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="MainCat" Type="Int32" Nullable="false" />
+    <Property Name="Standing" Type="DateTime" Nullable="false" Precision="0" />
+    <NavigationProperty Name="Goods" Relationship="Self.FK_Goods_Providers" FromRole="Providers" ToRole="Goods" />
+  </EntityType>
+  <EntityType Name="Salary">
+    <Key>
+      <PropertyRef Name="SalId" />
+    </Key>
+    <Property Name="SalId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="SellerID" Type="Int32" Nullable="false" />
+    <Property Name="Base" Type="Double" Nullable="false" />
+    <Property Name="Extras" Type="Double" />
+    <Property Name="Finaly" Type="Double" Nullable="false" />
+    <NavigationProperty Name="Workers" Relationship="Self.FK_Workers_Salary" FromRole="Salary" ToRole="Workers" />
+  </EntityType>
+  <EntityType Name="sysdiagrams">
+    <Key>
+      <PropertyRef Name="diagram_id" />
+    </Key>
+    <Property Name="name" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+    <Property Name="principal_id" Type="Int32" Nullable="false" />
+    <Property Name="diagram_id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="version" Type="Int32" />
+    <Property Name="definition" Type="Binary" MaxLength="Max" FixedLength="false" />
+  </EntityType>
+  <EntityType Name="Transaction">
+    <Key>
+      <PropertyRef Name="TransCode" />
+    </Key>
+    <Property Name="TransCode" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Date" Type="DateTime" Nullable="false" Precision="3" />
+    <Property Name="Seller" Type="Int32" Nullable="false" />
+    <Property Name="Thing" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Goods" Relationship="Self.FK_Transaction_Goods" FromRole="Transaction" ToRole="Goods" />
+    <NavigationProperty Name="Workers" Relationship="Self.FK_Transaction_Workers1" FromRole="Transaction" ToRole="Workers" />
+  </EntityType>
+  <EntityType Name="Workers">
+    <Key>
+      <PropertyRef Name="WorkerID" />
+    </Key>
+    <Property Name="WorkerID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Name" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Surname" Type="String" MaxLength="10" FixedLength="true" Unicode="true" Nullable="false" />
+    <Property Name="Role" Type="Int32" Nullable="false" />
+    <Property Name="SallaryID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="Salary" Relationship="Self.FK_Workers_Salary" FromRole="Workers" ToRole="Salary" />
+    <NavigationProperty Name="Transaction" Relationship="Self.FK_Transaction_Workers1" FromRole="Workers" ToRole="Transaction" />
+  </EntityType>
+  <Association Name="FK_Goods_Categorys">
+    <End Role="Categorys" Type="Self.Categorys" Multiplicity="1" />
+    <End Role="Goods" Type="Self.Goods" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Categorys">
+        <PropertyRef Name="CategotyID" />
+      </Principal>
+      <Dependent Role="Goods">
+        <PropertyRef Name="Category" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Goods_Providers">
+    <End Role="Providers" Type="Self.Providers" Multiplicity="1" />
+    <End Role="Goods" Type="Self.Goods" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Providers">
+        <PropertyRef Name="ProviderID" />
+      </Principal>
+      <Dependent Role="Goods">
+        <PropertyRef Name="ProvidedBy" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Transaction_Goods">
+    <End Role="Goods" Type="Self.Goods" Multiplicity="1" />
+    <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Goods">
+        <PropertyRef Name="GoodsID" />
+      </Principal>
+      <Dependent Role="Transaction">
+        <PropertyRef Name="Thing" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Workers_Salary">
+    <End Role="Salary" Type="Self.Salary" Multiplicity="1" />
+    <End Role="Workers" Type="Self.Workers" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Salary">
+        <PropertyRef Name="SalId" />
+      </Principal>
+      <Dependent Role="Workers">
+        <PropertyRef Name="SallaryID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_Transaction_Workers1">
+    <End Role="Workers" Type="Self.Workers" Multiplicity="1" />
+    <End Role="Transaction" Type="Self.Transaction" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Workers">
+        <PropertyRef Name="WorkerID" />
+      </Principal>
+      <Dependent Role="Transaction">
+        <PropertyRef Name="Seller" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="CSEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Categorys" EntityType="Self.Categorys" />
+    <EntitySet Name="Goods" EntityType="Self.Goods" />
+    <EntitySet Name="Providers" EntityType="Self.Providers" />
+    <EntitySet Name="Salary" EntityType="Self.Salary" />
+    <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
+    <EntitySet Name="Transaction" EntityType="Self.Transaction" />
+    <EntitySet Name="Workers" EntityType="Self.Workers" />
+    <AssociationSet Name="FK_Goods_Categorys" Association="Self.FK_Goods_Categorys">
+      <End Role="Categorys" EntitySet="Categorys" />
+      <End Role="Goods" EntitySet="Goods" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Goods_Providers" Association="Self.FK_Goods_Providers">
+      <End Role="Providers" EntitySet="Providers" />
+      <End Role="Goods" EntitySet="Goods" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Transaction_Goods" Association="Self.FK_Transaction_Goods">
+      <End Role="Goods" EntitySet="Goods" />
+      <End Role="Transaction" EntitySet="Transaction" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Workers_Salary" Association="Self.FK_Workers_Salary">
+      <End Role="Salary" EntitySet="Salary" />
+      <End Role="Workers" EntitySet="Workers" />
+    </AssociationSet>
+    <AssociationSet Name="FK_Transaction_Workers1" Association="Self.FK_Transaction_Workers1">
+      <End Role="Workers" EntitySet="Workers" />
+      <End Role="Transaction" EntitySet="Transaction" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

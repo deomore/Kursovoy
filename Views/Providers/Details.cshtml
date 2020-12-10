@@ -1,0 +1,44 @@
+﻿@model CompShop2.Models.Providers
+
+<div>
+    <h4>Providers</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.ProviderID)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ProviderID)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.MainCat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.MainCat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Standing)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Standing)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
