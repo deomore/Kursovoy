@@ -11,11 +11,12 @@ namespace CompShop2.Controllers
     public class CategorysController : Controller
     {
         private CSEntities db = new CSEntities();
+        [Authorize(Roles = "Seller,Manager")]
         public ActionResult Index()
         {
             return View(db.Categorys.ToList());
         }
-
+        [Authorize(Roles = "Seller,Manager")]
         // GET: Categorys/Details/5
         public ActionResult Details(int id)
         {
@@ -27,12 +28,13 @@ namespace CompShop2.Controllers
             return View(categorys);
         }
 
+      
         // GET: Categorys/Create
         public ActionResult Create()
         {
             return View();
         }
-
+        [Authorize(Roles = "Manager")]
         // POST: Categorys/Create
         [HttpPost]
         public ActionResult Create(Categorys categorys)
@@ -47,6 +49,7 @@ namespace CompShop2.Controllers
             return View(categorys);
         }
 
+        
         // GET: Categorys/Edit/5
         public ActionResult Edit(int id)
         {
@@ -57,8 +60,7 @@ namespace CompShop2.Controllers
             }
             return View(categorys);
         }
-
-        // POST: Categorys/Edit/5
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         public ActionResult Edit(Categorys categorys)
         {
@@ -71,6 +73,7 @@ namespace CompShop2.Controllers
             return View(categorys);
         }
 
+        [Authorize(Roles = "Manager")]
         // GET: Categorys/Delete/5
         public ActionResult Delete(int id)
         {

@@ -355,14 +355,18 @@
     <Content Include="Views\Providers\Index.cshtml" />
     <Content Include="Views\Providers\Details.cshtml" />
     <Content Include="Views\Providers\Create.cshtml" />
-    <Content Include="Views\Categorys\Index.cshtml" />
     <Content Include="Views\Categorys\Details.cshtml" />
     <Content Include="Views\Categorys\Create.cshtml" />
     <Content Include="Views\Categorys\Edit.cshtml" />
+    <Content Include="Views\Categorys\Index.cshtml" />
+    <Content Include="Views\Workers\Index.cshtml" />
+    <Content Include="Views\Workers\Prodaga.cshtml" />
+    <Content Include="Views\Workers\Account.cshtml" />
+    <Content Include="Views\Workers\Edit.cshtml" />
+    <Content Include="Views\Providers\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\Workers\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

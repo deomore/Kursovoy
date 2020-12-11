@@ -26,7 +26,7 @@
 @foreach (var item in Model) {
 <tr>
     <td>
-        @Html.DisplayFor(modelItem => item.Category)
+        @Html.DisplayFor(modelItem => item.Categorys.CatName)
     </td>
     <td>
         @Html.DisplayFor(modelItem => item.Price)
@@ -41,14 +41,16 @@
         @Html.DisplayFor(modelItem => item.ProvidedBy)
     </td>
     <td>
-        @using (Html.BeginForm("Sell", "Home", new { ProdID = item.GoodsID}))
+        @using (Html.BeginForm("Sell", "Home", new { ProdID = item.GoodsID }))
         {
             @Html.Editor("count");
             <input type="submit" value="Sell" />
         }
     </td>
     <td>
-        @Html.ActionLink("Spisat", "Spisat", new { ProdID = item.GoodsID }) |
+        @{ if (User.IsInRole("Manager"))
+            {@Html.ActionLink("Spisat", "Spisat", new { ProdID = item.GoodsID }) }
+            }
         @Html.ActionLink("Edit", "Edit", new { id = item.GoodsID }) |
         @Html.ActionLink("Details", "Details", new { id = item.GoodsID }) |
         @Html.ActionLink("Delete", "Delete", new { id = item.GoodsID })

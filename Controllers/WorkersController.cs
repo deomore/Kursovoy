@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
+using System.Security.Claims;
+using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using CompShop2.Models;
@@ -9,82 +12,105 @@ namespace CompShop2.Controllers
 {
     public class WorkersController : Controller
     {
+        private CSEntities db = new CSEntities();
+
+
+        
         // GET: Workers
         public ActionResult Index()
         {
-            return View();
+            var Cat = db.Workers.Include(p => p.Salary);
+            return View(Cat.ToList());
         }
-
-        // GET: Workers/Details/5
-        public ActionResult Details(int id)
-        {
-            return View();
-        }
-
+        
         // GET: Workers/Create
         public ActionResult Create()
         {
             return View();
         }
-
-        // POST: Workers/Create
-        [HttpPost]
-        public ActionResult Create(FormCollection collection)
+        [Authorize(Roles = "Admin")]
+        public ActionResult Create(Workers workers)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add insert logic here
-
+                db.Workers.Add(workers);
+                db.SaveChanges();
                 return RedirectToAction("Index");
             }
-            catch
-            {
-                return View();
-            }
+
+            return View(workers);
         }
 
-        // GET: Workers/Edit/5
-        public ActionResult Edit(int id)
+       
+        public ActionResult Account()
         {
-            return View();
+            var identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
+            var email = HttpContext.User.Identity.Name;
+            string c = email;
+
+            Workers workers = db.Workers.Where(l => l.Name == c).First();
+            int z = workers.WorkerID;
+
+            workers = db.Workers.Find(z);
+            return View(workers);
+        }
+
+
+
+     
+        public ActionResult Prodaga(int ProdID,int days)
+        {
+            DateTime date = DateTime.Now.AddDays(-days);
+               IEnumerable <Transaction> transaction = db.Transaction.Where(w => w.Seller == ProdID && w.Date > date).ToList();
+
+            return View(transaction);
+        }
+      
+        public ActionResult Extra(int id, int sum)
+        {
+           Salary salary = db.Salary.Where(l => l.SellerID == id).First() ;
+       salary.Extras = sum;
+            db.SaveChanges();
+       salary.Finaly = salary.Base + sum;
+       db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+        
+        // GET: Workers/Edit/5
+        public ActionResult Edit(int id = 0)
+        {
+            Workers workers = db.Workers.Find(id);
+            return View(workers);
         }
 
         // POST: Workers/Edit/5
         [HttpPost]
-        public ActionResult Edit(int id, FormCollection collection)
+        public ActionResult Edit(Workers workers)
         {
-            try
+            if (ModelState.IsValid)
             {
-                // TODO: Add update logic here
-
-                return RedirectToAction("Index");
+                db.Entry(workers).State = EntityState.Modified;
+                db.SaveChanges();
+                return RedirectToAction("Account");
             }
-            catch
-            {
-                return View();
-            }
+            return View(workers);
         }
 
         // GET: Workers/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
 
+
+        [Authorize(Roles = "Admin")]
         // POST: Workers/Delete/5
         [HttpPost]
-        public ActionResult Delete(int id, FormCollection collection)
+        public ActionResult Delete(int id = 0)
         {
-            try
+            Workers workers = db.Workers.Find(id);
+            if (workers == null)
             {
-                // TODO: Add delete logic here
-
-                return RedirectToAction("Index");
+                return HttpNotFound();
             }
-            catch
-            {
-                return View();
-            }
+            return View(workers);
         }
     }
 }

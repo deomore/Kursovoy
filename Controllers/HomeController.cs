@@ -15,7 +15,8 @@ namespace CompShop2.Controllers
      private  CSEntities db = new CSEntities();
         public ActionResult Index()
         {
-            return View(db.Goods.ToList());
+            var Cat = db.Goods.Include(p => p.Categorys);
+            return View(Cat.ToList());
         }
 
        
@@ -29,9 +30,11 @@ namespace CompShop2.Controllers
             return View(goods);
         }
 
-        // [Authorize(Roles = "Manager")]
+        [Authorize(Roles = "Manager")]
         public ActionResult Create()
         {
+            SelectList cat = new SelectList(db.Categorys, "CategotyID", "CatName");
+            ViewBag.Categorys = cat;
             return View();
         }
 
@@ -48,7 +51,7 @@ namespace CompShop2.Controllers
             return View(goods);
         }
 
-        // [Authorize(Roles = "Seller")]
+        [Authorize(Roles = "Seller")]
         public ActionResult Edit(int id = 0)
         {
            Goods goods = db.Goods.Find(id);
@@ -70,11 +73,12 @@ namespace CompShop2.Controllers
             }
             return View(goods);
         }
-       
+
+        [Authorize(Roles = "Manager")]
         public ActionResult Spisat(int ProdID)
         {
            DateTime date = DateTime.Now.AddMonths(-1);
-            bool res = db.Transaction.Any(w => w.Thing == ProdID && w.Date > date);
+            bool res = db.Transaction.Any(w => w.Thing == ProdID && w.Date < date);
             if (res)
             {
                 Goods goods = db.Goods.Where(z => z.GoodsID == ProdID).First();
@@ -84,17 +88,7 @@ namespace CompShop2.Controllers
             return RedirectToAction("Index");
         }
 
-        
-
-       public string GetInfo()
-        {
-            var identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
-            var email = HttpContext.User.Identity.Name;
-           // var a = HttpContext.User.Identity.
-            return "<p> Адресс  " +  email;
-        }
-
-        [Authorize(Roles = "Seller")]
+        [Authorize(Roles = "Seller,Manager")]
         public ActionResult Sell(int ProdID, int count)
         {
             // этот блок получает мыло активного пользователя
@@ -107,11 +101,12 @@ namespace CompShop2.Controllers
             Workers workers = db.Workers.Where(l => l.Name == c).First();
             int z = workers.WorkerID;
 
-            // 
+            // Продажа (уменьшение товара)
             Goods goods = db.Goods.Where(k => k.GoodsID == ProdID).First();
             goods.Quantity -= count;
             db.SaveChanges();
 
+            // создание транзакции
             Transaction transaction = new Transaction()
             {
                 Seller = z,
@@ -124,7 +119,7 @@ namespace CompShop2.Controllers
             return RedirectToAction("Index");
         }
 
-        // [Authorize(Roles = "Seller")]
+         [Authorize(Roles = "Manager")]
         public ActionResult Delete(int id = 0)
         {
             Goods goods = db.Goods.Find(id);
