@@ -119,7 +119,13 @@ namespace CompShop2.Controllers
             return RedirectToAction("Index");
         }
 
-         [Authorize(Roles = "Manager")]
+        public ActionResult Search(string GName)
+        {
+            var goods = db.Goods.Where(good => good.Name.Contains(GName));
+            return PartialView(goods);
+        }
+
+        [Authorize(Roles = "Manager")]
         public ActionResult Delete(int id = 0)
         {
             Goods goods = db.Goods.Find(id);

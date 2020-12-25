@@ -49,15 +49,13 @@ namespace CompShop2.Controllers
             string c = email;
 
             Workers workers = db.Workers.Where(l => l.Name == c).First();
-            int z = workers.WorkerID;
-
-            workers = db.Workers.Find(z);
+           
             return View(workers);
         }
 
 
 
-     
+        [Authorize(Roles = "Manager")]
         public ActionResult Prodaga(int ProdID,int days)
         {
             DateTime date = DateTime.Now.AddDays(-days);
@@ -65,7 +63,7 @@ namespace CompShop2.Controllers
 
             return View(transaction);
         }
-      
+        [Authorize(Roles = "Manager")]
         public ActionResult Extra(int id, int sum)
         {
            Salary salary = db.Salary.Where(l => l.SellerID == id).First() ;
@@ -78,9 +76,11 @@ namespace CompShop2.Controllers
 
         
         // GET: Workers/Edit/5
-        public ActionResult Edit(int id = 0)
+        public ActionResult Edit(int id)
         {
-            Workers workers = db.Workers.Find(id);
+            var identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
+            var email = HttpContext.User.Identity.Name;
+            Workers workers = db.Workers.Where(l =>l.Name == email).First() ;
             return View(workers);
         }
 

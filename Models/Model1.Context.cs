@@ -32,6 +32,5 @@ namespace CompShop2.Models
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<Transaction> Transaction { get; set; }
         public virtual DbSet<Workers> Workers { get; set; }
-        public bool TruncateTime { get; internal set; }
     }
 }
