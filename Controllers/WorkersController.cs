@@ -64,12 +64,12 @@ namespace CompShop2.Controllers
             return View(transaction);
         }
         [Authorize(Roles = "Manager")]
-        public ActionResult Extra(int id, int sum)
+        public ActionResult Extra(int id, double sum)
         {
            Salary salary = db.Salary.Where(l => l.SellerID == id).First() ;
-       salary.Extras = sum;
+       salary.Extras += sum;
             db.SaveChanges();
-       salary.Finaly = salary.Base + sum;
+       salary.Finaly = (double)(salary.Base + salary.Extras);
        db.SaveChanges();
             return RedirectToAction("Index");
         }

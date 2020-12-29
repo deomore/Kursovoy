@@ -126,6 +126,7 @@ namespace CompShop2.Controllers
         }
 
         [Authorize(Roles = "Manager")]
+       
         public ActionResult Delete(int id = 0)
         {
             Goods goods = db.Goods.Find(id);
@@ -134,6 +135,14 @@ namespace CompShop2.Controllers
                 return HttpNotFound();
             }
             return View(goods);
+        }
+
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            db.Goods.Remove(db.Goods.Find(id));
+            db.SaveChanges();
+            return RedirectToAction("Index");
         }
 
     }

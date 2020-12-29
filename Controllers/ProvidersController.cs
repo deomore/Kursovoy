@@ -59,6 +59,7 @@ namespace CompShop2.Controllers
             return View(providers);
         }
 
+        [HttpPost]
         public ActionResult Edit(Providers providers)
         {
             if (ModelState.IsValid)

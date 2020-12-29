@@ -364,8 +364,8 @@
     <Content Include="Views\Workers\Index.cshtml" />
     <Content Include="Views\Workers\Prodaga.cshtml" />
     <Content Include="Views\Workers\Account.cshtml" />
-    <Content Include="Views\Providers\Edit.cshtml" />
     <Content Include="Views\Home\Search.cshtml" />
+    <Content Include="Views\Providers\Edit.cshtml" />
     <Content Include="Views\Workers\Edit.cshtml" />
   </ItemGroup>
   <ItemGroup>
