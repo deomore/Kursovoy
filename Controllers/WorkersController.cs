@@ -58,10 +58,17 @@ namespace CompShop2.Controllers
         [Authorize(Roles = "Manager")]
         public ActionResult Prodaga(int ProdID,int days)
         {
-            DateTime date = DateTime.Now.AddDays(-days);
-               IEnumerable <Transaction> transaction = db.Transaction.Where(w => w.Seller == ProdID && w.Date > date).ToList();
+            try
+            {
+                DateTime date = DateTime.Now.AddDays(-days);
+                IEnumerable<Transaction> transaction = db.Transaction.Where(w => w.Seller == ProdID && w.Date > date).ToList();
 
-            return View(transaction);
+                return View(transaction);
+            }
+            catch
+            {
+                return RedirectToAction("Index","Home");
+            }
         }
         [Authorize(Roles = "Manager")]
         public ActionResult Extra(int id, double sum)

@@ -16,7 +16,10 @@
             @Html.DisplayNameFor(model => model.Role)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SallaryID)
+            @Html.Label("Base sallary ")
+        </th>
+        <th>
+            @Html.Label("Finnaly sallary ")
         </th>
         <th></th>
     </tr>
@@ -36,18 +39,22 @@
         @Html.DisplayFor(modelItem => item.Role)
     </td>
     <td>
+        @Html.DisplayFor(modelItem => item.Salary.Base)
+    </td>
+    <td>
         @Html.DisplayFor(modelItem => item.Salary.Finaly)
     </td>
     <td>
-
-        @using (Html.BeginForm("Prodaga", "Workers", new { ProdID = item.WorkerID }))
+        @if (User.IsInRole("Manager"))
         {
-            @Html.Editor("days");
-            <input type="submit" value="Срок дней"/>
+            using (Html.BeginForm("Prodaga", "Workers", new { ProdID = item.WorkerID }))
+            {
+                @Html.Editor("days");
+                <input type="submit" value="Срок дней" />
+            }
         }
     </td>
     <td>
-        
     </td>
 </tr>
 }

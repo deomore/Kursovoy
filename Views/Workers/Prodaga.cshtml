@@ -1,9 +1,8 @@
-﻿
-@model IEnumerable<CompShop2.Models.Transaction>
+﻿@model IEnumerable<CompShop2.Models.Transaction>
 
-
+@{int selid = Model.First().Seller;}
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @selid
 </p>
 <table class="table">
     <tr>
@@ -16,33 +15,32 @@
         <th>
             @Html.DisplayNameFor(model => model.Thing)
         </th>
-       
+
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.Date)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Seller)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Thing)
-    </td>
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+           
+            <td>
+                @Html.DisplayFor(modelItem => item.Thing)
+            </td>
 
-    
-    <td>
-        @using (Html.BeginForm("Extra", "Workers", new { id  = item.Seller }))
-        {
-            @Html.Editor("sum");
-            <input type="submit" value="Выписать премию" />
-        }
-    </td>
-    
-</tr>
+
+            <td>
+            </td>
+
+        </tr>
     }
 
 </table>
+
+@using (Html.BeginForm("Extra", "Workers", new { id = selid }))
+{
+    @Html.Editor("sum");
+    <input type="submit" value="Выписать премию" />
+}

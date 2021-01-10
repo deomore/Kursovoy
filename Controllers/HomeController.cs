@@ -78,8 +78,10 @@ namespace CompShop2.Controllers
         public ActionResult Spisat(int ProdID)
         {
            DateTime date = DateTime.Now.AddMonths(-1);
+            int maxID = db.Transaction.Max(w => w.TransCode);
+            Transaction transaction = db.Transaction.Where(w => w.Thing == ProdID && w.TransCode == maxID).First();
             bool res = db.Transaction.Any(w => w.Thing == ProdID && w.Date < date);
-            if (res)
+            if (transaction.Date < date)
             {
                 Goods goods = db.Goods.Where(z => z.GoodsID == ProdID).First();
                 goods.Quantity = 0;
@@ -103,19 +105,21 @@ namespace CompShop2.Controllers
 
             // Продажа (уменьшение товара)
             Goods goods = db.Goods.Where(k => k.GoodsID == ProdID).First();
-            goods.Quantity -= count;
-            db.SaveChanges();
-
-            // создание транзакции
-            Transaction transaction = new Transaction()
+            if (count <= goods.Quantity)
             {
-                Seller = z,
-                Thing = ProdID,
-                Date = DateTime.Now
-            };
-            db.Transaction.Add(transaction);
-            db.SaveChanges();
+                goods.Quantity -= count;
+                db.SaveChanges();
 
+                // создание транзакции
+                Transaction transaction = new Transaction()
+                {
+                    Seller = z,
+                    Thing = ProdID,
+                    Date = DateTime.Now
+                };
+                db.Transaction.Add(transaction);
+                db.SaveChanges();
+            }
             return RedirectToAction("Index");
         }
 
