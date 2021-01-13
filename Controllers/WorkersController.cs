@@ -7,6 +7,7 @@ using System.Threading;
 using System.Web;
 using System.Web.Mvc;
 using CompShop2.Models;
+using System.Data.Entity.Validation;
 
 namespace CompShop2.Controllers
 {
@@ -61,7 +62,7 @@ namespace CompShop2.Controllers
             try
             {
                 DateTime date = DateTime.Now.AddDays(-days);
-                IEnumerable<Transaction> transaction = db.Transaction.Where(w => w.Seller == ProdID && w.Date > date).ToList();
+                IEnumerable<Transaction> transaction = db.Transaction.Where(w => w.Seller == ProdID && w.Date > date).Include(w =>w.Goods).ToList();
 
                 return View(transaction);
             }
@@ -81,36 +82,9 @@ namespace CompShop2.Controllers
             return RedirectToAction("Index");
         }
 
-        
+        [Authorize(Roles = "Admin")]
         // GET: Workers/Edit/5
         public ActionResult Edit(int id)
-        {
-            var identity = (ClaimsPrincipal)Thread.CurrentPrincipal;
-            var email = HttpContext.User.Identity.Name;
-            Workers workers = db.Workers.Where(l =>l.Name == email).First() ;
-            return View(workers);
-        }
-
-        // POST: Workers/Edit/5
-        [HttpPost]
-        public ActionResult Edit(Workers workers)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(workers).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Account");
-            }
-            return View(workers);
-        }
-
-        // GET: Workers/Delete/5
-
-
-        [Authorize(Roles = "Admin")]
-        // POST: Workers/Delete/5
-        [HttpPost]
-        public ActionResult Delete(int id = 0)
         {
             Workers workers = db.Workers.Find(id);
             if (workers == null)
@@ -119,5 +93,40 @@ namespace CompShop2.Controllers
             }
             return View(workers);
         }
+
+        // POST: Workers/Edit/5
+        [HttpPost]
+        public ActionResult Edit(Workers workers)
+        {
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    db.Entry(workers).State = EntityState.Modified;
+                    db.SaveChanges();
+                    return RedirectToAction("Index");
+                }
+                return View(workers);
+            }
+            catch (DbEntityValidationException e)
+            {
+                Session["error"] = e.EntityValidationErrors;
+                return RedirectToAction("Index");
+            }
+        }
+
+        // GET: Workers/Delete/5
+
+
+        [Authorize(Roles = "Admin")]
+        [HttpPost]
+        public ActionResult Delete(int id = 0)
+        {
+            db.Workers.Remove(db.Workers.Find(id));
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
+
     }
 }

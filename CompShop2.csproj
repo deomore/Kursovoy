@@ -367,6 +367,7 @@
     <Content Include="Views\Home\Search.cshtml" />
     <Content Include="Views\Providers\Edit.cshtml" />
     <Content Include="Views\Workers\Edit.cshtml" />
+    <Content Include="Views\Workers\Delete.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

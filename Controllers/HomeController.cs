@@ -78,17 +78,21 @@ namespace CompShop2.Controllers
         public ActionResult Spisat(int ProdID)
         {
            DateTime date = DateTime.Now.AddMonths(-1);
-            int maxID = db.Transaction.Max(w => w.TransCode);
-            Transaction transaction = db.Transaction.Where(w => w.Thing == ProdID && w.TransCode == maxID).First();
-            bool res = db.Transaction.Any(w => w.Thing == ProdID && w.Date < date);
-            if (transaction.Date < date)
+            try
             {
-                Goods goods = db.Goods.Where(z => z.GoodsID == ProdID).First();
-                goods.Quantity = 0;
-                db.SaveChanges();
+                int maxID = db.Transaction.Max(w => w.TransCode);
+                Transaction transaction = db.Transaction.Where(w => w.Thing == ProdID && w.TransCode == maxID).First();
+                //bool res = db.Transaction.Any(w => w.Thing == ProdID && w.Date < date);
+                if (transaction.Date < date)
+                {
+                    Goods goods = db.Goods.Where(z => z.GoodsID == ProdID).First();
+                    goods.Quantity = 0;
+                    db.SaveChanges();
+                }
+                return RedirectToAction("Index");
             }
-            return RedirectToAction("Index");
-        }
+            catch { return RedirectToAction("Index"); }
+            }
 
         [Authorize(Roles = "Seller,Manager")]
         public ActionResult Sell(int ProdID, int count)

@@ -1,5 +1,13 @@
 ﻿@model IEnumerable<CompShop2.Models.Workers>
 
+@{
+    string error = "";
+    if (Session["error"] != null)
+    {
+        error = Session["error"].ToString();
+    }
+}
+@error
 
 <table class="table">
     <tr>
@@ -24,39 +32,51 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-<tr>
-    <td>
-        @Html.DisplayFor(modelItem => item.WorkerID)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Name)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Surname)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Role)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Salary.Base)
-    </td>
-    <td>
-        @Html.DisplayFor(modelItem => item.Salary.Finaly)
-    </td>
-    <td>
-        @if (User.IsInRole("Manager"))
-        {
-            using (Html.BeginForm("Prodaga", "Workers", new { ProdID = item.WorkerID }))
-            {
-                @Html.Editor("days");
-                <input type="submit" value="Срок дней" />
-            }
-        }
-    </td>
-    <td>
-    </td>
-</tr>
-}
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.WorkerID)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Surname)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Role)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Salary.Base)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Salary.Finaly)
+            </td>
+            <td>
+                @if (User.IsInRole("Manager"))
+                {
+                    using (Html.BeginForm("Prodaga", "Workers", new { ProdID = item.WorkerID }))
+                    {
+                        @Html.Editor("days");
+                        <input type="submit" value="Срок дней" />
+                    }
+                }
+            </td>
+         
+            <td>
+                @{ if (User.IsInRole("Admin"))
+                    {
+                       // @Html.ActionLink("Уволить", "Delete", new { id = item.WorkerID }) 
+                        using (Html.BeginForm("Delete","Workers",new { id = item.WorkerID }))
+                        {
+                            <input type="submit" value="Уволить" /> 
+                        }
+                    }
+                }
+            </td>
+
+        </tr>
+    }
 
 </table>

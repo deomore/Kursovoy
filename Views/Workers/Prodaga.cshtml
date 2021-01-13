@@ -1,43 +1,52 @@
 ﻿@model IEnumerable<CompShop2.Models.Transaction>
 
-@{int selid = Model.First().Seller;}
-<p>
-    @selid
-</p>
+@{int selid = Model.First().Seller; double sum = 0;}
+<label>
+    ID продавца: @selid
+</label>
+</br>
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.Date)
         </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Seller)
-        </th>
+
         <th>
             @Html.DisplayNameFor(model => model.Thing)
         </th>
-
+        <th>
+            @Html.DisplayNameFor(model => model.Goods.Price)
+        </th>
         <th></th>
     </tr>
 
     @foreach (var item in Model)
     {
-        <tr>
-            <td>
-                @Html.DisplayFor(modelItem => item.Date)
-            </td>
-           
-            <td>
-                @Html.DisplayFor(modelItem => item.Thing)
-            </td>
+<tr>
+    <td>
+        @Html.DisplayFor(modelItem => item.Date)
+    </td>
 
+    <td>
+        @Html.DisplayFor(modelItem => item.Thing)
+    </td>
+    @{sum += item.Goods.Price;}
 
-            <td>
-            </td>
+    <td>
+        @Html.DisplayFor(modelItem => item.Goods.Price)
+    </td>
+    <td>
+    </td>
 
-        </tr>
+</tr>
     }
 
 </table>
+
+<label>
+    За выбранный период проданно на: @sum
+</label>
+</br>
 
 @using (Html.BeginForm("Extra", "Workers", new { id = selid }))
 {

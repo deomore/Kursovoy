@@ -1,7 +1,7 @@
 ﻿@model IEnumerable<CompShop2.Models.Goods>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Добавить товар", "Create")
 </p>
 @if ((User.IsInRole("Admin")) || (User.IsInRole("Seller")) || (User.IsInRole("Manager")))
 {
@@ -65,16 +65,16 @@
                     @using (Html.BeginForm("Sell", "Home", new { ProdID = item.GoodsID }))
                     {
                         @Html.Editor("count");
-                        <input type="submit" value="Sell" />
+                        <input type="submit" value="Продать" />
                     }
                 </td>
                 <td>
                     @{ if (User.IsInRole("Manager"))
-                        {@Html.ActionLink("Spisat", "Spisat", new { ProdID = item.GoodsID }) }
+                        {@Html.ActionLink("Списать", "Spisat", new { ProdID = item.GoodsID }) }
                     }
-                    @Html.ActionLink("Edit", "Edit", new { id = item.GoodsID }) |
-                    @Html.ActionLink("Details", "Details", new { id = item.GoodsID }) |
-                    @Html.ActionLink("Delete", "Delete", new { id = item.GoodsID })
+                    @Html.ActionLink("Редактировать", "Edit", new { id = item.GoodsID }) |
+                    @Html.ActionLink("Просмотр", "Details", new { id = item.GoodsID }) |
+                    @Html.ActionLink("Удаление", "Delete", new { id = item.GoodsID })
                 </td>
             </tr>
         }
