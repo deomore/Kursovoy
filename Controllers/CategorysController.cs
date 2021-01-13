@@ -49,9 +49,9 @@ namespace CompShop2.Controllers
             return View(categorys);
         }
 
-        
+        [Authorize(Roles = "Manager")]
         // GET: Categorys/Edit/5
-        public ActionResult Edit(int id)
+        public ActionResult Edit(int id=0)
         {
             Categorys categorys = db.Categorys.Find(id);
             if (categorys == null)
@@ -60,7 +60,7 @@ namespace CompShop2.Controllers
             }
             return View(categorys);
         }
-        [Authorize(Roles = "Manager")]
+        
         [HttpPost]
         public ActionResult Edit(Categorys categorys)
         {
@@ -75,7 +75,7 @@ namespace CompShop2.Controllers
 
         [Authorize(Roles = "Manager")]
         // GET: Categorys/Delete/5
-        public ActionResult Delete(int id)
+        public ActionResult Delete(int id = 0)
         {
             Categorys categorys = db.Categorys.Find(id);
             if (categorys == null)
@@ -83,9 +83,15 @@ namespace CompShop2.Controllers
                 return HttpNotFound();
             }
             return View(categorys);
-
         }
 
-      
+        [HttpPost, ActionName("Delete")]
+        public ActionResult DeleteConfirmed(int id)
+        {
+            db.Categorys.Remove(db.Categorys.Find(id));
+            db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
     }
 }

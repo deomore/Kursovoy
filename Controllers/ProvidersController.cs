@@ -11,13 +11,13 @@ namespace CompShop2.Controllers
     public class ProvidersController : Controller
     {
         private CSEntities db = new CSEntities();
-        [Authorize(Roles = "Seller,Manager")]
+        [Authorize(Roles = "Manager")]
         public ActionResult Index()
         {
             return View(db.Providers.ToList());
         }
 
-        [Authorize(Roles = "Seller")]
+        [Authorize(Roles = "Manager")]
         public ActionResult Details(int id = 0)
         {
             Providers providers= db.Providers.Find(id);
@@ -34,7 +34,7 @@ namespace CompShop2.Controllers
             return View();
         }
 
-        [Authorize(Roles = "Seller,Manager")]
+        [Authorize(Roles = "Manager")]
         [HttpPost]
         public ActionResult Create(Providers providers)
         {
@@ -48,7 +48,7 @@ namespace CompShop2.Controllers
             return View(providers);
         }
 
-       [Authorize(Roles = "Seller")]
+       [Authorize(Roles = "Manager")]
             public ActionResult Edit(int id = 0)
         {
             Providers providers = db.Providers.Find(id);
@@ -82,5 +82,14 @@ namespace CompShop2.Controllers
             }
             return View(providers);
         }
+
+            [HttpPost, ActionName("Delete")]
+            public ActionResult DeleteConfirmed(int id)
+            {
+                db.Providers.Remove(db.Providers.Find(id));
+                db.SaveChanges();
+                return RedirectToAction("Index");
+           }
+        
     }
 }

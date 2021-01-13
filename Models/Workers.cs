@@ -11,7 +11,8 @@ namespace CompShop2.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Workers
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,8 +22,11 @@ namespace CompShop2.Models
         }
     
         public int WorkerID { get; set; }
+        [Display(Name = "Имя в системе")]
         public string Name { get; set; }
+        [Display(Name = "Фамилия")]
         public string Surname { get; set; }
+        [Display(Name = "Роль")]
         public int Role { get; set; }
         public int SallaryID { get; set; }
     

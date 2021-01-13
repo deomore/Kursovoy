@@ -51,7 +51,7 @@ namespace CompShop2.Controllers
             return View(goods);
         }
 
-        [Authorize(Roles = "Seller")]
+        [Authorize(Roles = "Seller,Manager")]
         public ActionResult Edit(int id = 0)
         {
            Goods goods = db.Goods.Find(id);

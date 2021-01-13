@@ -20,7 +20,8 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.ProviderID)
@@ -35,10 +36,13 @@
             @Html.DisplayFor(modelItem => item.Standing)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new {  id=item.ProviderID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.ProviderID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.ProviderID })
-        </td>
+           
+            @Html.ActionLink("Просмотр", "Details", new { id = item.ProviderID }) |
+
+            @{ if (User.IsInRole("Manager"))
+                {@Html.ActionLink("Удаление", "Delete", new { id = item.ProviderID })}
+                }
+                </td>
     </tr>
 }
 

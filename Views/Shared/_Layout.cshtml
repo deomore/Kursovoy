@@ -24,10 +24,14 @@
                 <ul class="nav navbar-nav">
                     <li>@Html.ActionLink("Товары", "Index", "Home")</li>
                     <li>@Html.ActionLink("Категории товаров", "Index", "Categorys")</li>
-                    <li>@Html.ActionLink("Поставщики", "Index", "Providers")</li>
-                    <li>@Html.ActionLink("Сотрудники", "Index", "Workers")</li>
-                    <li>@Html.ActionLink("Личный кабинет", "Account", "Workers")</li>
-                </ul>
+
+                    @{if (User.IsInRole("Manager"))
+                        {<li>@Html.ActionLink("Поставщики", "Index", "Providers")</li> } }
+                    @{if ((User.IsInRole("Manager")) || (User.IsInRole("Admin")))
+                        {<li>@Html.ActionLink("Сотрудники", "Index", "Workers")</li>}
+                        }
+                            <li>@Html.ActionLink("Личный кабинет", "Account", "Workers")</li>
+                        </ul>
                 @Html.Partial("_LoginPartial")
             </div>
         </div>

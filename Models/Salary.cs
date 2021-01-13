@@ -11,8 +11,7 @@ namespace CompShop2.Models
 {
     using System;
     using System.Collections.Generic;
-    using System.ComponentModel.DataAnnotations;
-
+    
     public partial class Salary
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -24,12 +23,9 @@ namespace CompShop2.Models
         public int SalId { get; set; }
         public int SellerID { get; set; }
         public double Base { get; set; }
-        [Display(Name = "Ставка")]
         public Nullable<double> Extras { get; set; }
-        
         public double Finaly { get; set; }
-        [Display(Name = "ЗП")]
-
+    
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Workers> Workers { get; set; }
     }

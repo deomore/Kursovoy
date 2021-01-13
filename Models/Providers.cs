@@ -11,7 +11,8 @@ namespace CompShop2.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class Providers
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
@@ -21,8 +22,11 @@ namespace CompShop2.Models
         }
     
         public int ProviderID { get; set; }
+        [Display(Name = "Имя поставщика")]
         public string Name { get; set; }
+        [Display(Name = "Категория поставок")]
         public int MainCat { get; set; }
+        [Display(Name = "Контракт заключен с")]
         public System.DateTime Standing { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
